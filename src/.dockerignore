@@ -1,0 +1,17 @@
+# Docker
+**/compose.yml
+**/docker-compose.yml
+**/Dockerfile
+**/.dockerignore
+
+# Git
+**/.git
+**/.gitignore
+**/.gitattributes
+
+# Python
+**/__pycache__
+**/.venv
+
+# VS Code
+**/.vscode

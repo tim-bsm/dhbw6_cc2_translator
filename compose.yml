@@ -1,0 +1,48 @@
+# The following commands can be used to start up the programm.
+# First navigate in the projects root folder 'offline_mes' and
+# execute one of the following commands depending on what should
+# be happening. If you get an error that says something like
+# 'permission denied while trying to connect to the Docker daemon
+# socket', you have to either start it as root or use sudo in fornt
+# of the command.
+#
+# $ docker compose up -d --watch --build
+# -> -d is optional to start the container as daemon (in the back-
+#    ground)
+# -> --watch is optional to reflect any local changes in the container
+# -> --build is optional to rebuild the images
+#
+# $ docker compose stop
+# $ docker compose down
+# -> stop or delete the containers
+#
+# $ docker ps -a -q
+# -> show every running docker container
+# -> -a is optional to show not running ones as well
+# -> -q only show the ids of the containers
+
+services:
+  # http://127.0.0.1:80
+  flask_server:
+    container_name: flask_server
+    build:
+      context: ./src
+      args:
+        # Linux
+        UID: ${TRANSLATOR_UID}
+        GID: ${TRANSLATOR_GID}
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /home/nonroot/app
+          ignore:
+            - .dockerignore
+            - Dockerfile
+            - requirements.txt
+    ports:
+      - "80:5000"
+    restart: always
+    environment:
+      # Others
+      TZ: Europe/Berlin

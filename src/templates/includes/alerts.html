@@ -1,0 +1,8 @@
+{% block alerts %}
+{% for alert in bs_alerts %}
+  <div class="alert alert-{{ alert['type'] }} alert-dismissible" role="alert">
+    <div>{{ alert['message'] }}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+{% endblock %}

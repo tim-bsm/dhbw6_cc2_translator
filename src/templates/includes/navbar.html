@@ -1,0 +1,64 @@
+{% block navbar %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary mt-2 mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">{{ strings.APP_NAME.message }}</a>
+        <ul class="navbar-nav d-flex">
+            <!-- Add a vertical line between the links -->
+            <li class="nav-item py-2">
+                <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+                <hr class="d-lg-none my-2 text-white-50">
+            </li>
+            <!-- Add language switch -->
+            <li class="nav-item dropdown">
+                <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="lang" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+                    <span class="bi my-1 lang-icon-active"><i class=""></i></span>
+                    <span class="d-lg-none ms-2" id="lang-text">Toggle language</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="lang-text">
+                    {% for key, value in languages.items() %}
+                        <a type="button" class="dropdown-item d-flex align-items-center" data-lang-value="{{ key }}" href="{{ url_for('index', lang=key) }}">
+                            {% if key == 'en' %}
+                                <span class="bi me-2"><i class="fi fi-gb"></i></span>
+                            {% else %}
+                                <span class="bi me-2"><i class="fi fi-{{ key }}"></i></span>
+                            {% endif %}
+                            {{ value }}
+                            <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                        </a>
+                    {% endfor %}
+                </ul>
+            </li>
+            <!-- Add light/dark mode button -->
+            <li class="nav-item dropdown">
+                <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+                    <span class="bi my-1 bd-theme-icon-active"><i class=""></i></span>
+                    <span class="d-lg-none ms-2" id="bd-theme-text">{{ strings.THEME.TOGGLE.message }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                    <li>
+                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                            <span class="bi me-2"><i class="bi-sun-fill"></i></span>
+                            {{ strings.THEME.LIGHT.message }}
+                            <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                            <span class="bi me-2"><i class="bi-moon-stars-fill"></i></span>
+                            {{ strings.THEME.DARK.message }}
+                            <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto">
+                            <span class="bi me-2"><i class="bi-circle-half"></i></span>
+                            {{ strings.THEME.AUTO.message }}
+                            <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
