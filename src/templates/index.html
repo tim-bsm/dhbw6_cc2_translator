@@ -1,5 +1,88 @@
 {% extends 'includes/base.html' %}
 
 {% block content %}
-<p>Hello yeha</p>
+<div class="card">
+  <div class="card-body">
+
+    <!-- Add card for translate from -->
+    <div class="d-grid mb-3">
+      <div class="card">
+        <div class="card-header">
+          <!-- Create dropdown to choose language -->
+          <div class="dropdown">
+            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="transl-from" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+              <span class="my-1 transl-from-text-active">
+                <!-- Gets replaced by the current selected language -->
+              </span>
+              <span class="d-lg-none ms-2" id="transl-from-text">{{ strings.TRANSLATE_FROM.TOGGLE.message }}</span>
+            </button>
+            <ul class="dropdown-menu">
+              <!-- Add button for detecting language -->
+              <li>
+                <a type="button" class="dropdown-item d-flex align-items-center" data-transl-from-value="Detect Language" href="#">
+                  Detect Language
+                  <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                </a>
+              </li>
+              <!-- Add languages -->
+              {% for language in translator_languages %}
+                <li>
+                  <a type="button" class="dropdown-item d-flex align-items-center" data-transl-from-value="{{ language }}" href="#">
+                    {{ language }}
+                    <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+          
+        <!-- Show text field -->
+        <div class="card-body">
+          <label for="origText" class="visually-hidden">{{ strings.TRANSLATE_FROM.TEXT_FIELD.message }}</label>
+          <textarea class="form-control-plaintext" id="origText" placeholder="{{ strings.TRANSLATE_FROM.PLACEHOLDER.message }}" rows="9"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add card for translate to -->
+    <div class="d-grid mb-3">
+      <div class="card">
+        <div class="card-header">
+          <!-- Create dropdown to choose language -->
+          <div class="dropdown">
+            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="transl-to" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+              <span class="my-1 transl-to-text-active">
+                <!-- Gets replaced by the current selected language -->
+              </span>
+              <span class="d-lg-none ms-2" id="transl-to-text">{{ strings.TRANSLATE_TO.TOGGLE.message }}</span>
+            </button>
+            <ul class="dropdown-menu">
+              <!-- Add languages -->
+              {% for language in translator_languages %}
+                <li>
+                  <a type="button" class="dropdown-item d-flex align-items-center" data-transl-to-value="{{ language }}" href="#">
+                    {{ language }}
+                    <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+          
+        <!-- Show text field -->
+        <div class="card-body">
+          <label for="translatedText" class="visually-hidden">{{ strings.TRANSLATE_TO.TEXT_FIELD.message }}</label>
+          <textarea class="form-control-plaintext" id="translatedText" placeholder="{{ strings.TRANSLATE_TO.PLACEHOLDER.message }}" rows="9"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add button to get translation -->
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary" id="submit-btn">{{ strings.SUBMIT.message }}</button>
+    </div>
+  </div>
+</div>
 {% endblock %}

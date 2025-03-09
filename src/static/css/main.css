@@ -1,0 +1,5 @@
+/* Make dropdowns scrollable after specific height */
+.dropdown-menu {
+    max-height: 25vh;
+    overflow-y: auto;
+}

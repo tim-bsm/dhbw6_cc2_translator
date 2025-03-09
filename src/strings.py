@@ -14,6 +14,10 @@ class CONTENT:
     class APP_NAME:
         message = "Translator"
     
+    class LANGUAGE:
+        class TOGGLE:
+            message = "Toggle language"
+    
     class THEME:        
         class TOGGLE:
             message = "Toggle theme"
@@ -27,3 +31,25 @@ class CONTENT:
         class AUTO:
             message = "Auto"
     
+    class TRANSLATE_FROM:
+        class TOGGLE:
+            message = "Toggle translate from"
+        
+        class TEXT_FIELD:
+            message = "Original text"
+        
+        class PLACEHOLDER:
+            message = "Please insert text here..."
+    
+    class TRANSLATE_TO:
+        class TOGGLE:
+            message = "Toggle translate to"
+        
+        class TEXT_FIELD:
+            message = "Translated text"
+            
+        class PLACEHOLDER:
+            message = "Your text translates to..."
+    
+    class SUBMIT:
+        message = "Translate"
