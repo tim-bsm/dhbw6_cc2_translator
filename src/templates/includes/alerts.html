@@ -1,4 +1,5 @@
 {% block alerts %}
+<!-- Create area for alerts and render them if any were set -->
 {% for alert in bs_alerts %}
   <div class="alert alert-{{ alert['type'] }} alert-dismissible" role="alert">
     <div>{{ alert['message'] }}</div>

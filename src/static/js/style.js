@@ -43,18 +43,37 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
   }
 })
 
+const addEventListeners = (id, type) => {
+  document.querySelectorAll('[data-'+id+'-value]')
+    .forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const value = toggle.getAttribute('data-'+id+'-value')
+        if (id == 'bs-theme') {
+          setStoredTheme(value)
+          setTheme(value)
+        }
+        if (type == 'icon') {
+          showActiveIcon(value, id, true)
+        }
+        else if (type == 'text') {
+          showActiveText(value, id, false)
+        }
+      })
+    })
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   showActiveIcon(params.get('lang') || 'en', 'lang')
-  addIconEventListeners('lang')
+  addEventListeners('lang', 'icon')
   
   showActiveIcon(getPreferredTheme(), 'bs-theme')
-  addIconEventListeners('bs-theme')
+  addEventListeners('bs-theme', 'icon')
   
   showActiveText('Detect Language', 'transl-from')
-  addTextEventListeners('transl-from')
+  addEventListeners('transl-from', 'text')
 
   showActiveText('English', 'transl-to')
-  addTextEventListeners('transl-to')
+  addEventListeners('transl-to', 'text')
 })
 
 })()
@@ -94,19 +113,6 @@ const showActiveIcon = (value, id, focus=false) => {
     switcherText.focus()
   }
 }
-const addIconEventListeners = (id) => {
-  document.querySelectorAll('[data-'+id+'-value]')
-    .forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const value = toggle.getAttribute('data-'+id+'-value')
-        if (id == 'bs-theme') {
-          setStoredTheme(value)
-          setTheme(value)
-        }
-        showActiveIcon(value, id, true)
-      })
-    })
-}
 
 // Function to change the active text of dropdowns
 const showActiveText = (value, id, focus=false) => {
@@ -141,13 +147,4 @@ const showActiveText = (value, id, focus=false) => {
   if (focus) {
     switcherText.focus()
   }
-}
-const addTextEventListeners = (id) => {
-  document.querySelectorAll('[data-'+id+'-value]')
-    .forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const value = toggle.getAttribute('data-'+id+'-value')
-        showActiveText(value, id, false)
-      })
-    })
 }

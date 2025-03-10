@@ -6,7 +6,6 @@ from strings import ALERTS, CONTENT
 
 from flask import Flask, render_template, redirect, request, url_for, jsonify
 import json
-import requests
 
 
 
@@ -14,7 +13,6 @@ import requests
 
 app = Flask(__name__)
 translator_languages = get_language_names(app.logger)
-print(translator_languages)
 
 
 @app.route("/api", methods=['POST'])
@@ -22,6 +20,8 @@ def api():
     """
     Defines the API route for the application. It translates the text provided in the
     request to the target language and returns the translated text.
+    
+    :return resp (flask.Response): The translated text, language_from and language_to in JSON format
     """
     
     # Get the data from the request
@@ -124,11 +124,16 @@ def index():
 
 def translate_text(text: str, src: str, dest: str) -> tuple[str, str, str]:
     """
-    Translates a given text from a source language to a destination language.
+    Checks in db if text was already translated into the given language. If not,
+    it translates the given text from the source language to the destination language.
     
     :param str text: The text to be translated
     :param str src: The source language
     :param dest: The destination language
+    
+    :return translated_text (str): The translated text
+    :return src (str): The source language
+    :return dest (str): The destination language
     """
     
     # Translate the text

@@ -28,6 +28,7 @@ const submitTranslation = () => {
             console.log("received following response from api: ", data)
             translatedText.textContent = data.translated_text
             showActiveText(data.translate_from, 'transl-from')
+            showActiveText(data.translate_to, 'transl-to')
         })
 }
 

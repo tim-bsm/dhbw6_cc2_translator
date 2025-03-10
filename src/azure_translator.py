@@ -32,12 +32,12 @@ languages = None
 
 
 # https://learn.microsoft.com/en-us/python/api/overview/azure/ai-translation-text-readme?view=azure-python
-def __get_languages(logger: Logger) -> dict:
+def __get_languages(logger: Logger) -> dict[dict]:
     """
     Gets the supported languages for the Azure Text Translator API.
     
-    :param Flask app: The Flask application instance.
-    :return languages (dict):
+    :param logger (Logger): The logger object
+    :return languages (dict): The dictionary of supported languages
     """
     
     global languages
@@ -59,10 +59,10 @@ def __get_languages(logger: Logger) -> dict:
 
 def get_language_names(logger: Logger) -> list[str]:
     """
-    Returns the names of the languages from the dictionary.
+    Returns the names of the languages.
     
-    :param dict languages: The dictionary of languages
-    :return language_names (list):
+    :param logger (Logger): The logger object
+    :return language_names (list): The list of language names
     """
     
     global languages
@@ -75,12 +75,12 @@ def get_language_names(logger: Logger) -> list[str]:
         
     return sorted(language_names)
 
-def get_language_code_of_name(logger: Logger, language_name: list[str]) -> list[str]:
+def __get_language_codes_of_names(logger: Logger, language_names: list[str]) -> list[str]:
     """
-    Returns the language code for a given language name.
+    Returns the language codes for the given language names.
     
-    :param str language_name: The name of the language
-    :return language_code (str):
+    :param list[str] language_name: The names of the languages
+    :return language_codes (list[str]): The codes of the languages
     """
     
     global languages
@@ -89,17 +89,17 @@ def get_language_code_of_name(logger: Logger, language_name: list[str]) -> list[
     
     # Iterate over the languages and get the code for the given language name
     for code, language in languages.items():
-        if language["name"] in language_name:
+        if language["name"] in language_names:
             codes.append(code)
             
     return codes if codes else None
 
-def get_language_name_of_code(logger: Logger, language_code: list[str]) -> list[str]:
+def __get_language_names_of_codes(logger: Logger, language_codes: list[str]) -> list[str]:
     """
-    Returns the language name for a given language code.
+    Returns the language names for the given language codes.
     
-    :param str language_code: The code of the language
-    :return language_name (str):
+    :param list[str] language_codes: The codes of the languages
+    :return language_names (list[str]): The names of the languages
     """
     
     global languages
@@ -108,7 +108,7 @@ def get_language_name_of_code(logger: Logger, language_code: list[str]) -> list[
     
     # Iterate over the languages and get the name for the given language code
     for code, language in languages.items():
-        if code in language_code:
+        if code in language_codes:
             names.append(language["name"])
             
     return names if names else None    
@@ -125,8 +125,8 @@ def azure_translate_text(logger: Logger, text: list[str], target_language: list[
     try:
         response = text_translator.translate(
             body=text,
-            from_language=get_language_code_of_name(logger, [source_language])[0] if source_language else None,
-            to_language=get_language_code_of_name(logger, target_language),
+            from_language=__get_language_codes_of_names(logger, [source_language])[0] if source_language else None,
+            to_language=__get_language_codes_of_names(logger, target_language),
             include_sentence_length=True
         )
         translation = response[0] if response else None
@@ -146,7 +146,7 @@ def azure_translate_text(logger: Logger, text: list[str], target_language: list[
                     logger.debug("Source Sentence length: %s" % translated_text.sent_len.src_sent_len)
                     logger.debug("Translated Sentence length: %s" % translated_text.sent_len.trans_sent_len)
         
-        source_language = get_language_name_of_code(logger, detected_language.language)[0] if source_language is None else source_language
+        source_language = __get_language_names_of_codes(logger, detected_language.language)[0] if source_language is None else source_language
         return translated_text_list, source_language, target_language
 
     except HttpResponseError as exception:
