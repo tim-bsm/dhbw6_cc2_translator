@@ -57,25 +57,31 @@ def __get_languages(logger: Logger) -> dict[dict]:
             logger.error("Message: %s" % exception.error.message)
         raise
 
-def get_language_names(logger: Logger) -> list[str]:
+def get_languages(logger: Logger) -> tuple[list[str], list[str]]:
     """
-    Returns the names of the languages.
+    Returns the names and the codes of the languages.
     
     :param logger (Logger): The logger object
-    :return language_names (list): The list of language names
+    :return language_codes (list): The list of language codes
+    :return language_names (list): The list of language names sorted alphabetically
     """
     
     global languages
     languages = languages or __get_languages(logger)
+    language_codes = []
     language_names = []
+    
+    # Get the language codes
+    for key, _ in languages.items():
+        language_codes.append(key)
     
     # Iterate over the languages and get only the names
     for language in list(languages.values()):
         language_names.append(language["name"])
         
-    return sorted(language_names)
+    return language_codes, sorted(language_names)
 
-def __get_language_codes_of_names(logger: Logger, language_names: list[str]) -> list[str]:
+def get_language_codes_of_names(logger: Logger, language_names: list[str]) -> list[str]:
     """
     Returns the language codes for the given language names.
     
@@ -94,7 +100,7 @@ def __get_language_codes_of_names(logger: Logger, language_names: list[str]) -> 
             
     return codes if codes else None
 
-def __get_language_names_of_codes(logger: Logger, language_codes: list[str]) -> list[str]:
+def get_language_names_of_codes(logger: Logger, language_codes: list[str]) -> list[str]:
     """
     Returns the language names for the given language codes.
     
@@ -118,15 +124,17 @@ def azure_translate_text(logger: Logger, text: list[str], target_language: list[
     Translates a given text from a source language to a destination language.
     
     :param list[str] text: The text to be translated
-    :param list[str] target_language: The language to translate the text to
-    :param str source_language: The language of the text to be translated
-    :return translated (str):
+    :param list[str] target_language: The language names to translate the text to
+    :param str source_language: The language name of the text to be translated
+    :return translated_text_list (list[str]): The translated text
+    :return source_language (str): The source language name
+    :return target_language (list[str]): The target language names
     """
     try:
         response = text_translator.translate(
             body=text,
-            from_language=__get_language_codes_of_names(logger, [source_language])[0] if source_language else None,
-            to_language=__get_language_codes_of_names(logger, target_language),
+            from_language=get_language_codes_of_names(logger, [source_language])[0] if source_language else None,
+            to_language=get_language_codes_of_names(logger, target_language),
             include_sentence_length=True
         )
         translation = response[0] if response else None
@@ -146,7 +154,7 @@ def azure_translate_text(logger: Logger, text: list[str], target_language: list[
                     logger.debug("Source Sentence length: %s" % translated_text.sent_len.src_sent_len)
                     logger.debug("Translated Sentence length: %s" % translated_text.sent_len.trans_sent_len)
         
-        source_language = __get_language_names_of_codes(logger, detected_language.language)[0] if source_language is None else source_language
+        source_language = get_language_names_of_codes(logger, detected_language.language)[0] if source_language is None else source_language
         return translated_text_list, source_language, target_language
 
     except HttpResponseError as exception:

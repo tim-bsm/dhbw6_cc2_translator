@@ -9,7 +9,7 @@ const submitTranslation = () => {
     const toText = document.querySelector('.transl-to-text-active')
 
     const data = {
-        text: origText.value,
+        text: origText.value.trim(), // remove leading and trailing spaces
         translate_from: removeNewlineAndSpaces(fromText.textContent) || removeNewlineAndSpaces(fromText.innerText),
         translate_to: removeNewlineAndSpaces(toText.textContent) || removeNewlineAndSpaces(toText.innerText),
     }
@@ -26,7 +26,7 @@ const submitTranslation = () => {
         .then(response => response.json())
         .then(data => {
             console.log("received following response from api: ", data)
-            translatedText.textContent = data.translated_text
+            translatedText.value = data.translated_text
             showActiveText(data.translate_from, 'transl-from')
             showActiveText(data.translate_to, 'transl-to')
         })

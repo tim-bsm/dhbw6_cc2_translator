@@ -1,7 +1,7 @@
 {% block navbar %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary mt-2 mb-3">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('index') }}">{{ strings.APP_NAME.message }}</a>
+        <a class="navbar-brand" href="{{ url_for('index') }}">{{ STRINGS["OTHERS"]["APP_NAME"] }}</a>
         <ul class="navbar-nav d-flex">
             <!-- Add a vertical line between the links -->
             <li class="nav-item py-2">
@@ -12,7 +12,7 @@
             <li class="nav-item dropdown">
                 <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="lang" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
                     <span class="bi my-1 lang-icon-active"><i class=""></i></span>
-                    <span class="d-lg-none ms-2" id="lang-text">{{ strings.LANGUAGE.TOGGLE.message }}</span>
+                    <span class="d-lg-none ms-2" id="lang-text">{{ STRINGS["BUTTONS"]["TOGGLE_LANGUAGE"] }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="lang-text">
                     {% for key, value in site_languages.items() %}
@@ -32,27 +32,27 @@
             <li class="nav-item dropdown">
                 <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bs-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
                     <span class="bi my-1 bs-theme-icon-active"><i class=""></i></span>
-                    <span class="d-lg-none ms-2" id="bs-theme-text">{{ strings.THEME.TOGGLE.message }}</span>
+                    <span class="d-lg-none ms-2" id="bs-theme-text">{{ STRINGS["BUTTONS"]["TOGGLE_LANGUAGE"] }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bs-theme-text">
                     <li>
                         <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
                             <span class="bi me-2"><i class="bi-sun-fill"></i></span>
-                            {{ strings.THEME.LIGHT.message }}
+                            {{ STRINGS["THEMES"]["LIGHT"] }}
                             <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
                         </button>
                     </li>
                     <li>
                         <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
                             <span class="bi me-2"><i class="bi-moon-stars-fill"></i></span>
-                            {{ strings.THEME.DARK.message }}
+                            {{ STRINGS["THEMES"]["DARK"] }}
                             <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
                         </button>
                     </li>
                     <li>
                         <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto">
                             <span class="bi me-2"><i class="bi-circle-half"></i></span>
-                            {{ strings.THEME.AUTO.message }}
+                            {{ STRINGS["THEMES"]["AUTO"] }}
                             <span class="bi ms-auto d-none"><i class="bi-check2"></i></span>
                         </button>
                     </li>

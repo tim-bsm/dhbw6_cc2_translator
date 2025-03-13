@@ -14,7 +14,7 @@
               <span class="my-1 transl-from-text-active">
                 <!-- Gets replaced by the current selected language -->
               </span>
-              <span class="d-lg-none ms-2" id="transl-from-text">{{ strings.TRANSLATE_FROM.TOGGLE.message }}</span>
+              <span class="d-lg-none ms-2" id="transl-from-text">{{ STRINGS["BUTTONS"]["TOGGLE_TRANSLATE_FROM"] }}</span>
             </button>
             <ul class="dropdown-menu">
               <!-- Add button for detecting language -->
@@ -39,8 +39,8 @@
           
         <!-- Show text field -->
         <div class="card-body">
-          <label for="origText" class="visually-hidden">{{ strings.TRANSLATE_FROM.TEXT_FIELD.message }}</label>
-          <textarea class="form-control-plaintext" id="origText" placeholder="{{ strings.TRANSLATE_FROM.PLACEHOLDER.message }}" rows="6"></textarea>
+          <label for="origText" class="visually-hidden">{{ STRINGS["TRANSLATE_FROM"]["TEXT_FIELD"] }}</label>
+          <textarea class="form-control-plaintext" id="origText" placeholder="{{ STRINGS['TRANSLATE_FROM']['PLACEHOLDER'] }}" rows="6"></textarea>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
               <span class="my-1 transl-to-text-active">
                 <!-- Gets replaced by the current selected language -->
               </span>
-              <span class="d-lg-none ms-2" id="transl-to-text">{{ strings.TRANSLATE_TO.TOGGLE.message }}</span>
+              <span class="d-lg-none ms-2" id="transl-to-text">{{ STRINGS["BUTTONS"]["TOGGLE_TRANSLATE_FROM"] }}</span>
             </button>
             <ul class="dropdown-menu">
               <!-- Add languages -->
@@ -73,15 +73,15 @@
           
         <!-- Show text field -->
         <div class="card-body">
-          <label for="translatedText" class="visually-hidden">{{ strings.TRANSLATE_TO.TEXT_FIELD.message }}</label>
-          <textarea class="form-control-plaintext" id="translatedText" placeholder="{{ strings.TRANSLATE_TO.PLACEHOLDER.message }}" rows="6"></textarea>
+          <label for="translatedText" class="visually-hidden">{{ STRINGS["TRANSLATE_TO"]["TEXT_FIELD"] }}</label>
+          <textarea class="form-control-plaintext" id="translatedText" placeholder="{{ STRINGS['TRANSLATE_TO']['PLACEHOLDER'] }}" rows="6" disabled></textarea>
         </div>
       </div>
     </div>
 
     <!-- Add button to get translation -->
     <div class="d-grid">
-      <button type="submit" class="btn btn-primary" id="submit-btn">{{ strings.SUBMIT.message }}</button>
+      <button type="submit" class="btn btn-primary" id="submit-btn">{{ STRINGS["BUTTONS"]["SUBMIT"] }}</button>
     </div>
   </div>
 </div>

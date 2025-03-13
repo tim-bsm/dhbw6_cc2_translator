@@ -11,7 +11,8 @@ FROM python:alpine AS builder
 # Update to newest versions and install packages to build/compile the needed packages
 RUN apk update &&\
     apk add --no-cache --upgrade apk-tools
-#RUN apk add --no-cache --virtual build-deps mariadb-dev musl-dev gcc make p7zip g++
+# RUN apk add --no-cache --virtual g++
+#mariadb-dev musl-dev gcc make p7zip g++
 
 # Install the python packages from the /requirements.txt into /compiled-pip-packages
 COPY requirements.txt /requirements.txt
