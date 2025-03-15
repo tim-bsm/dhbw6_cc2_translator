@@ -4,7 +4,7 @@ from azure_translator import get_languages, azure_translate_text, get_language_c
 from constants import site_languages, STRINGS
 from database import connect_to_db, write_text_to_db, read_text_from_db
 
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flask import Flask, render_template, redirect, request, url_for, jsonify, make_response
 import json
 
 
@@ -133,7 +133,11 @@ def translate_strings(lang: str) -> dict[str, str]:
     """
     
     # On default language, return the strings as they are
-    if lang == "en": return STRINGS
+    if lang == "en":
+        return STRINGS
+    # On Chinese, set the correct API language code
+    elif lang == "cn":
+        lang = "zh-Hans"
     
     new_strings = {}
     for category in STRINGS:
@@ -166,24 +170,31 @@ def translate_text(text: str, src: str, dest: str) -> tuple[str, str, str]:
     :return dest (str): The destination language
     """
     
-    # Check if the text is already in the database
-    translation = read_text_from_db(
-        db, 
-        app.logger, 
-        get_language_codes_of_names(app.logger, [dest])[0],
-        text)
+    translation = None
+    
+    # Only read from the database if it is connected
+    if db is not None:
+        # Check if the text is already in the database
+        translation = read_text_from_db(
+            db, 
+            app.logger, 
+            get_language_codes_of_names(app.logger, [dest])[0],
+            text)
+    
     if translation:
         return translation, src, dest
     else:
         # Translate the text
         translated_text, src, dest = azure_translate_text(app.logger, [text], [dest], src if src != "Detect Language" else None)
         
-        # Write the translation to the database
-        write_text_to_db(
-            db, 
-            app.logger, 
-            get_language_codes_of_names(app.logger, dest)[0], 
-            text, 
-            translated_text[0])
+        # Only write to the database if it is connected
+        if db is not None:
+            # Write the translation to the database
+            write_text_to_db(
+                db, 
+                app.logger, 
+                get_language_codes_of_names(app.logger, dest)[0], 
+                text, 
+                translated_text[0])
     
     return translated_text[0], src, dest[0]

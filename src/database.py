@@ -85,7 +85,7 @@ def read_text_from_db(db: Database, logger: Logger, language: str, text: str) ->
     :param text (str): The original text
     :return translation (str): The translated text if found, an empty string otherwise
     """ 
-    print(language)
+    
     # Get the collection for the specified language
     collection = db[language]
 
