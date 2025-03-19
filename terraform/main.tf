@@ -23,6 +23,15 @@ module "mongodb" {
   translator_ip         = module.azure.public_ip
 }
 
+# Create ansible inventory from a template
+resource "local_file" "inventory" {
+  filename = "${path.module}/../ansible/inventory.ini" 
+  content  = templatefile("${path.module}/../ansible/inventory.tpl.ini", {
+    public_ip = module.azure.public_ip
+    vm_user = module.azure.user_vm
+  })
+}
+
 
 
 # ----- OUTPUTS -----
@@ -48,13 +57,4 @@ output "azure_translator_region" {
   description = "The region for the Azure translator"
   value = data.external.env.result["TRANSLATOR_AZURE_TEXT_TRANSLATION_REGION"]
   sensitive = true
-}
-
-# Create ansible inventory from a template
-resource "local_file" "inventory" {
-  filename = "${path.module}/../ansible/inventory.ini" 
-  content  = templatefile("${path.module}/../ansible/inventory.tpl.ini", {
-    public_ip = module.azure.public_ip
-    vm_user = module.azure.user_vm
-  })
 }

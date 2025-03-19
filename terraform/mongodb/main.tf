@@ -69,7 +69,6 @@ resource "mongodbatlas_cluster" "cluster" {
   backing_provider_name       = "AZURE"
   provider_region_name        = "EUROPE_WEST"
   provider_instance_size_name = "M0"
-#   cluster_type                = "REPLICASET"
 }
 
 
