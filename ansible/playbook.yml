@@ -1,0 +1,63 @@
+---
+- name: Deploy the Translator container on the Azure VM
+  hosts: translator
+  become: true
+  collections:
+    - community.docker
+  tasks:
+
+    - name: Add Docker GPG apt Key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    
+    - name: Add Docker Repository
+      ansible.builtin.apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: true
+
+    - name: Add azureuser to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    
+    - name: Create directory for the project
+      ansible.builtin.file:
+        path: ~/app
+        state: directory
+    
+    - name: Copy Docker Compose and .env file
+      copy:
+        src: ./../docker/{{ item }}
+        dest: ~/app/{{ item }}
+      loop:
+        - compose.yml
+        - .env
+
+    - name: Deploy Docker Compose container
+      community.docker.docker_compose_v2:
+        project_src: ~/app
+        pull: missing
+    
+    - name: Display URI of the translator
+      debug:
+        msg: "Hostname: http://{{ hostvars[inventory_hostname].ansible_host | default(inventory_hostname) }}"
+  

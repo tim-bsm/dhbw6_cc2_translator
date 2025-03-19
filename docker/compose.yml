@@ -1,0 +1,12 @@
+services:
+  # http://127.0.0.1:80
+  flask_server:
+    image: timbsm/dhbw6_cc2_translator:latest
+    container_name: flask_server
+    ports:
+      - "80:5000"
+    restart: always
+    env_file: ".env"
+    environment:
+      # Others
+      TZ: Europe/Berlin
