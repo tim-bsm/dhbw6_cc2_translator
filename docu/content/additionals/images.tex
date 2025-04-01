@@ -1,0 +1,32 @@
+%!TEX root = ../../document/document.tex
+
+% \saveimage[OPTIONAL: <linewidth=0px, padding=0mm>]{<ID>}{<figure_position>}{<graphic_settings>}{<description>}{<file_name>}
+
+% -> OPTIONAL to add a frame around the image (see https://ctan.joethei.xyz/macros/latex/contrib/gradientframe/gradientframe.pdf)
+% figure_position: where to position the figure e.g. ht (here, top)
+% graphic_settings: any settings for \includegraphics e.g. width=0.7\textwidth
+% description: caption to show below the image
+% file_name: in the folder /content/non_tex_files/images
+
+
+%%%%%%%%%%%%%%%%%%%%%%% SETUP %%%%%%%%%%%%%%%%%%%%%%
+
+% No need to edit the ones for the dhbw
+\newcommand{\dhbwDe}{\includegraphics[height=1.8cm, right, trim=0cm 2cm 0cm -2cm]{dhbw_de}}
+\newcommand{\dhbwEn}{\includegraphics[height=1.8cm, right, trim=0cm 0.5cm 0cm -0.5cm]{dhbw_en}}
+
+
+% Please edit the value starting from this line. For that, adjust the height
+% and then the trim to position the image. The trim values are in the format:
+% trim=left bottom right top
+\newcommand{\companyDeL}{\includegraphics[height=1.7cm, left, trim=0cm 1cm 0cm -1cm]{company_de}}
+\newcommand{\companyDeR}{\includegraphics[height=1.7cm, right, trim=0cm 1cm 0cm -1cm]{company_de}}
+\newcommand{\companyEnL}{\includegraphics[height=1.4cm, left, trim=0cm 1cm 0cm -1cm]{company_en}}
+\newcommand{\companyEnR}{\includegraphics[height=1.4cm, right, trim=0cm 1cm 0cm -1cm]{company_en}}
+
+\newcommand{\signature}{\includegraphics[height=1.8cm]{signature}}
+
+
+%%%%%%%%%%%%%%%%%%%% OWN IMAGES %%%%%%%%%%%%%%%%%%%%
+
+\saveimage[linewidth=2px, padding=3mm]{bsp}{ht}{width=0.7\textwidth}{Beispiel: einfügen eines Bildes \cite{2024}}{dhbw_de.png}

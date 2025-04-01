@@ -1,0 +1,61 @@
+%!TEX root = ../../document/document.tex
+
+% For every chapter create a file in the /content/chapters folder with the name
+% chapter-XX.tex where XX is the chapter number  (e.g. 01, 02, 03, ..., 99).
+
+
+\chapter{Beispiele zur Verwendung von LaTeX}
+   
+\section{Unterkapitel, Zitate, Referenzen, Formeln und Listings}\label{sec:Unterkapitel}
+
+\subsection{Unterunterkapitel}
+
+\enquote{Dies ist ein Beispiel für die Zitierfunktion} \cite[Vgl.][S. 1 ff.]{2024}. Zitate werden in der Reihenfolge ihres Auftretens im Text nummeriert. Nicht verwendete Zitate werden im Literaturverzeichnis unter \enquote{Weitere Quellen} aufgeführt.
+
+% Man kann ebenfalls einen \gls{Glossareintrag} oder mehrere \glspl{Glossareintrag} verwenden.
+
+Hier ein Beispiel für eine Formel (\autoref{eq:OhmschesGesetz}):
+\useequation{OhmschesGesetz}          % Ausgelagerte Formel einfügen
+
+Hier zwei Beispiele für Code (\autoref{code:Beispiel_Code-1} und \autoref{code:Beispiel_Code-2}):
+
+% Code im .tex file --> nicht empfohlen, u.a., da Tabs mitverwendet werden und
+% das .tex file dadurch unübersichtlich wird (s. listing 1.1 im PDF-File)
+\begin{lstlisting}[language=C++, caption={Beispiel: direktes einfügen von Code}, label={code:Beispiel_Code-1}]
+    #include <iostream>
+
+    int main() {
+        std::cout << "Hello World!" << std::endl;
+        return 0;
+    }
+\end{lstlisting}
+
+% Code in einer externen Datei
+\usecode{Beispiel_Code-2}                % Ausgelagerten Code einfügen
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% NEUE SEITE %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Bilder, Tabellen und Listen}
+
+\useimage{bsp}
+
+Wie in \autoref{img:bsp} zu sehen, ist das Logo der \ac{DHBW} ein sehr schönes Logo. Das $\lambda$ der \ac{lambda} ist ebenfalls ein sehr schönes Zeichen. Des Weiteren kann auf die Kapitelnummer referenziert werden: \autoref{sec:Unterkapitel} und mit \hyperref[sec:Unterkapitel]{Test Unterkapitel} können eigene Texte für die Referenzen vergeben werden. Mit \todo{Aufgabe für mich} können Aufgaben markiert werden, die noch erledigt werden müssen.\cite{A01}
+
+
+\vspace{0.5cm}
+\usetable{bsp_normal}
+
+Auch hier kann wieder auf die Tabellen referenziert werden: \autoref{tab:bsp_normal}, \autoref{tab:bsp_rotiert}.
+
+
+\usetable{bsp_rotiert}
+
+Hier ein Beispiel für eine Liste:
+\begin{itemize}[label=\textbullet]
+    \item Punkt 1
+    \item Punkt 2
+    \item Punkt 3
+\end{itemize}
+
+\Acl{dta} wird großgeschrieben und \ac{dta} klein, wie es definiert wurde. 
