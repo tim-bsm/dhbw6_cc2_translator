@@ -1,0 +1,52 @@
+%!TEX root = ../../document/document.tex
+
+% For every chapter create a file in the /content/chapters folder with the name
+% chapter-XX.tex where XX is the chapter number  (e.g. 01, 02, 03, ..., 99).
+
+
+\chapter{Implementierung}\label{c:3}
+
+\section{Architektur}\label{c:3_s:architecture}
+\useimage{architecture}
+
+Die Architektur des Projekts ist in \autoref{img:architecture} dargestellt. In dieser ist ein Development \ac{PC} aufgeführt, von welchem aus der Source Code entwickelt, gebaut und die Anwendung provisioniert wird. Der Code wird mithilfe von Docker containerisiert, für eine AMD64-Architektur -- wie diese der Ubuntu \ac{VM} -- gebaut und in den Docker Hub gepusht. Von dort wird dann in der erstellten \ac{VM} die Webanwendung heruntergeladen und gestartet. Zudem kommuniziert die Anwendung zur Laufzeit mit einer MongoDB Datenbank und dem Microsoft Azure \ac{AI} Translator.
+
+
+\section{Webanwendung}\label{c:3_s:webapp}
+
+\subsection{Frontend}\label{c:3_ss:frontend}
+Eine Abbildung der fertigen Webanwendung ist im Anhang unter \ref{img:webapp} zu finden. Diese zeigt oben eine Navigationsleiste, in welcher auf der rechten Seite die Sprache der Webseite und der Stil -- hell, dunkel oder automatische Wahl -- ausgewählt werden kann. Darunter befindet sich ein Feld zum Eingeben des zu übersetzenden Texts und ein Dropdown-Menü zum Auswählen der Originalsprache. Im Kasten darunter wird -- nach klicken auf den Knopf am unteren Rand -- der übersetzte Text angezeigt.\\
+Um diese Seite zu realisieren, werden Jinja Templates verwendet, welche beispielsweise die Namen der Sprachen in den Dropdown-Menüs einfügen. Zudem wird jeder String der Seite in einer Konstanten-Datei gespeichert, um diese einfach in eine auf der Webseite eingestellte Sprache übersetzen lassen zu können. Diese übersetzten Strings werden wiederum dynamisch im Jinja Template eingefügt. Das Aussehen der Webseite -- bzw. der \ac{HTML}-Elemente -- wird mithilfe von Bootstrap angepasst.
+
+\subsection{Backend}\label{c:3_ss:backend}
+Die Webseite verfügt generell über zwei Routen. Die erste Route ist die Startseite, auf welcher der Benutzer den Text eingeben kann, der übersetzt werden soll. Diese Route wird mit einem GET-Request aufgerufen und gibt die Webseite zurück. Die zweite Route ist die Übersetzungsroute, welche mit einem POST-Request aufgerufen wird.\\
+Diese \ac{API}-Schnittstelle bekommt -- beim Drücken des Übersetzen-Knopfes -- den eingegebenen Text und die zugehörigen Sprachen vom Client und gibt den übersetzten Text zurück. Hierfür wird zuerst überprüft, ob der Text sich bereits in der Datenbank befindet. Falls dies der Fall ist, wird der Text von dort zurückgegeben. Andernfalls wird der Text an den Microsoft Azure \ac{AI} Translator geschickt und dessen Antwort in der Datenbank gespeichert. Um möglichst effizient auf die Datenbank zugreifen zu können, besitzt jede Sprache in der MongoDB eine eigene Collection. Dadurch muss man bei der Abfrage nicht alle bereits gespeicherten Einträge durchgehen, sondern lediglich die der Ausgangssprache.
+
+
+\section{Docker}\label{c:3_s:docker}
+
+\subsection{Dockerfile}\label{c:3_ss:dockerfile}
+Das Dockerfile wird als Multi-Stage-Build erstellt. Wie in \autoref{c:2_ss:docker} bereits erklärt, kann man damit Container-Images in mehreren Schritten erstellen, um diese so performant wie möglich zu halten. Zudem wird als Basis-Image die Linux Alpine Distribution gewählt, da diese nur die nötigsten Pakete beinhaltet. Das erhöht auf der einen Seite die Sicherheit, da ungenutzte Pakete, die mögliche Sicherheitslücken enthalten, nicht installiert sind. Auf der anderen Seite wird das Image dadurch zudem weiter verkleinert. Innerhalb des Dockerfiles werden außerdem zusammengehörende Schritte zusammengefasst, um die Anzahl der Layer zu minimieren und damit ebenfalls das Image weiter zu verkleinern. Um ebenfalls während der Entwicklung Zeit zu sparen, werden die Ebenen so aufgebaut, dass sich nur die letzten Schritte ändern, wenn sich der Source Code ändert. Das bedeutet, dass die ersten Schritte, wie das Installieren der Abhängigkeiten, nicht erneut ausgeführt werden müssen, wenn sich nur der Source Code ändert. Dies liegt daran, dass Docker während dem Bauen die einzelnen Ebenen cachen kann.
+
+\subsection{Docker Compose}\label{c:3_ss:docker-compose}
+Um das Docker-Image letztendlich deployen zu können, wird das für die Architektur AMD64 gebaute Image in den Docker Hub gepusht. Ausgeführt wird dieses auf der \ac{VM} dann mithilfe eines Docker Compose Files. Für die Entwicklung wurde ein eigenes Compose File erstellt, welches es ermöglicht, die Dateien im Container mit denen auf dem Host zu synchronisieren. Das bedeutet, dass Docker automatisiert die Dateien neu lädt oder sogar den kompletten Container neu baut, wenn sich eine Datei auf dem Host ändert.\\
+Im Compose File für die Produktion, wird das Image vom Docker Hub geladen, der Port 5000 innerhalb des Containers wird auf Port 80 des Hosts gesetzt und ein \lstinline{.env}-File wird geladen, um Umgebungsvariablen -- darunter Sicherheitsschlüssel -- zu setzen.
+
+
+\section{Deployment}\label{c:3_s:deployment}
+
+\subsection{Terraform}\label{c:3_ss:terraform}
+Der \ac{IaC}-Service \enquote{Terraform} wird -- wie in \autoref{img:architecture} blau gekennzeichnet -- verwendet, um die \ac{VM} in Microsoft Azure und die MongoDB in Atlas zu provisionieren. Um die beiden Dienste zu trennen, wird jeweils ein eigenes Modul in der \lstinline{main.tf}-Datei angelegt und Variablen an diese übergeben.\\
+Bevor diese Module allerdings ausgeführt werden können, müssen zuerst die im \lstinline{.env}-File gespeicherten Umgebungsvariablen geladen werden. Diese beinhalten verschiedenste Schlüssel wie unter anderem den \ac{API}-Key für den Microsoft Azure Translator. Um diese Umgebungsvariablen direkt in den Run der \lstinline{main.tf}-Datei einzubinden, wird ein Shell-Skript verwendet, welches die Variablen aus dem \lstinline{.env}-File ausliest und diese im \ac{JSON}-Format an die aufrufende \lstinline{main.tf}-Datei zurückgibt.\\
+Daraufhin wird für die spätere Verwendung von Ansible ein Playbook mithilfe eines Templates erstellt. In diesem Template werden dabei die \ac{IPA} der Azure \ac{VM} und der passende Benutzername eingetragen. Zuletzt werden dann die von den Modulen erzeugten Ausgaben -- teils als sensitiv markiert, sodass diese nicht direkt einsehbar sind -- ausgegeben, um diese später verwenden zu können.
+
+Im Module für die Azure \ac{VM} wird der \ac{VM} eine statische, öffentliche \ac{IPA} zugewiesen, um diese später im Ansible Playbook und zur Verbindung zum Translator verwenden zu können. Um die Verbindungen auf Port 80 für die Webanwendung und Port 22 für \ac{SSH} zu ermöglichen, werden zwei weitere Regeln in die \ac{NSG} geschrieben. Bei Port 22 sind allerdings nur die \acp{IPA} erlaubt, die zuvor in das \lstinline{.env}-File geschrieben wurden. Diese \acp{IPA} sollten mindestens die öffentliche Adresse des Development \acp{PC} enthalten.
+
+Das Modul für die MongoDB in Atlas erstellt ein neues Projekt, in diesem eine Datenbank und einen Benutzer, welcher die nötigen Rechte besitzt, um Werte in der Datenbank ändern zu können. Zudem wird die \ac{IPA} des Azure \ac{VM} in die Whitelist der MongoDB geschrieben, um dieser zu erlauben, auf die Datenbank zugreifen zu dürfen.
+
+\subsection{Ansible}\label{c:3_ss:ansible}
+Ansible wird verwendet, um die \ac{VM} zu provisionieren -- in \autoref{img:architecture} rot gekennzeichnet. Hierbei wird ein Playbook verwendet, welches die \ac{IPA} und den Benutzernamen der \ac{VM} aus dem Terraform-Run enthält.
+
+Um das in der \hyperref[c:3_ss:docker-compose]{Docker Compose}-Datei enthaltene \lstinline{.env}-File verwenden zu können, muss dieses zuerst erstellt werden. Hierfür wird ein eigenes Shell-Skript verwendet, welches die Umgebungsvariablen aus dem Terraform-Run in das \lstinline{.env}-File schreibt. Dieses Skript wiederum wird von einem weiteren Shell-Skript aufgerufen, welches sowohl die Variablen aus dem Terraform-Run ausliest und dem ersten Skript übergibt, als auch das Ansible Playbook ausführt.
+
+Im Ansible Playbook werden zuerst die nötigen Pakete installiert. Daraufhin wird der Benutzer der \ac{VM} zu der Docker-Gruppe hinzugefügt und überprüft, ob der Docker Demon läuft. Daraufhin wird ein Ordner für die Anwendung erstellt und die \hyperref[c:3_ss:docker-compose]{Docker Compose}-Datei für den Produktionsbetrieb, zusammen mit dem zuvor durch das  Shell-Skript erzeugte \lstinline{.env}-File, in diesen Ordner kopiert. Zuletzt wird der Container gestartet und die \ac{IPA} der \ac{VM} in der Konsole zurückgegeben.

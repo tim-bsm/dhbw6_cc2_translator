@@ -1,0 +1,10 @@
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qu\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q ist ein Webserver, der speziell für die Ausführung von Python-Anwendungen entwickelt wurde.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qu\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q bietet eine Vielzahl von Funktionen, darunter Lastverteilung, Caching und Unterstützung für verschiedene Protokolle.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDie Anwendung wird auf einem u\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q-Server bereitgestellt, der die Kommunikation zwischen dem Webserver und der Anwendung ermöglicht.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qarchitecture\\E$"}
+{"rule":"DE_CASE","sentence":"^\\QZudem wurde als Basis-Image die Linux Alpine Distribution gewählt, da diese nur die nötigsten Pakete beinhaltet.\\E$"}
+{"rule":"DE_CASE","sentence":"^\\QZudem wird als Basis-Image die Linux Alpine Distribution gewählt, da diese nur die nötigsten Pakete beinhaltet.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QUm das in der c:3_ss:docker-compose-Datei beschriebene .env-File verwenden zu können, muss dieses zuerst erstellt werden.\\E$"}
+{"rule":"LEERZEICHEN_HINTER_DOPPELPUNKT","sentence":"^\\QUm das in der c:3_ss:docker-compose-Datei beschriebene .env-File verwenden zu können, muss dieses zuerst erstellt werden.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QUm das in der Docker Compose-Datei enthaltene .env-File verwenden zu können, muss dieses zuerst erstellt werden.\\E$"}
+{"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDaraufhin wird ein Ordner für die Anwendung erstellt und die Docker Compose-Datei für den Produktionsbetrieb, zusammen mit dem zuvor durch das Shell-Skript erzeugte .env-File, in diesen Ordner kopiert.\\E$"}

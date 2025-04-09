@@ -60,8 +60,7 @@ RUN chmod -R 755 /home/nonroot/app
 # Indicate what port the server is running on
 EXPOSE 80
 
-# Executes the init.sh script (its content is only available on the
-# first run) and starts the server (reachable on http://127.0.0.1:5000)
+# Starts the server (reachable on http://127.0.0.1:5000)
 # Development
 # CMD ["python", "-m", "flask", "--app", "app", "run", "--host=0.0.0.0", "--debug"]
 # Production

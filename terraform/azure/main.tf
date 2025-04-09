@@ -89,20 +89,20 @@ resource "azurerm_network_security_group" "nsg" {
   # Allow SSH for Ansible to connect to the server
   security_rule {
     name                       = "Allow_SSH"
-    priority                   = 100
+    priority                   = 1001
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.env["ALLOWED_SSH_HOSTS"]
+    source_address_prefix      = var.env["ALLOWED_SSH_HOSTS"] # Only allow SSH from the specified IPs
     destination_address_prefix = "*"
   }
 
   # Translator
   security_rule {
     name                       = "Allow_Translator"
-    priority                   = 110
+    priority                   = 1002
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"

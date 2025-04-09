@@ -1,1 +1,16 @@
 Flask
+Jinja
+uWSGI
+Builds
+Translator
+Ansible
+Playbook
+containerisiert
+GET-Request
+Dockerfiles
+Compose
+.env
+.env-File
+provisionieren
+main.tf-Datei
+Demon

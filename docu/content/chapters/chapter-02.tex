@@ -6,6 +6,43 @@
 
 \chapter{Stand der Technik}\label{c:2}
 
-\section{Python Flask}\label{c:2_s:flask}
+\section{Entwicklung der Webanwendung}\label{c:2_s:dev-webapp}
 
-Flask ist ein leichtgewichtiges Framework für Python, das eine einfache und flexible Möglichkeit bietet, Webanwendungen zu erstellen. Es ist bekannt für seine Einfachheit und Modularität, was es Entwicklern ermöglicht, schnell Prototypen zu erstellen. Andererseits ist es ebenfalls möglich, im Laufe der Entwicklung die Anwendungen zu skalieren. Flask folgt dem \ac{WSGI}-Standard und ist in der Lage, mit verschiedenen Webservern zu kommunizieren.
+Die Entwicklung der Webanwendung erfolgt in Python, wobei das Flask-Framework verwendet wird. Die Anwendung wird auf einem u\ac{WSGI}-Server bereitgestellt, der die Kommunikation zwischen dem Webserver und der Anwendung ermöglicht. Diese Kombination wird in einem Docker-Container betrieben, um eine einfache Bereitstellung und Skalierung zu gewährleisten. 
+
+\subsection{Flask}\label{c:2_ss:flask}
+Flask ist ein leichtgewichtiges Framework für Python, das eine einfache und flexible Möglichkeit bietet, Webanwendungen zu erstellen. Es ist bekannt für seine Einfachheit und Modularität, was es Entwicklern ermöglicht, schnell Prototypen zu erstellen. Andererseits ist es ebenfalls möglich, im Laufe der Entwicklung die Anwendungen zu skalieren. Flask folgt dem \ac{WSGI}-Standard und ist in der Lage, mit verschiedenen Webservern zu kommunizieren. Zudem werden Jinja Templates unterstützt, die es ermöglichen, HTML-Seiten dynamisch zu generieren. 
+\cite{flask}
+
+\subsection{uWSGI}\label{c:2_ss:uwsgi}
+u\ac{WSGI} ist ein Webserver, der speziell für die Ausführung von Python-Anwendungen entwickelt wurde. Es ist eine Implementierung des \ac{WSGI}-Standards und ermöglicht es Entwicklern, ihre Anwendungen effizient bereitzustellen. u\ac{WSGI} bietet eine Vielzahl von Funktionen, darunter Lastverteilung, Caching und Unterstützung für verschiedene Protokolle. Es ist bekannt für seine hohe Leistung und Skalierbarkeit und wird häufig in Produktionsumgebungen eingesetzt.
+\cite{uwsgi}
+
+\subsection{MongoDB Atlas}\label{c:2_ss:mongodb}
+MongoDB Atlas ist ein vollständig verwalteter \ac{PaaS}-Cloud-Datenbankdienst, der von MongoDB bereitgestellt wird. Es ermöglicht Entwicklern, MongoDB-Datenbanken in der Cloud zu erstellen, zu verwalten und zu skalieren, ohne sich um die zugrunde liegende Infrastruktur kümmern zu müssen. Es unterstützt verschiedene Cloud-Anbieter wie AWS, Microsoft Azure und Google Cloud, was es zu einer flexiblen Lösung für moderne Anwendungen macht. MongoDB Atlas erleichtert die Verwaltung von Datenbanken erheblich, wodurch sich Entwickler auf ihre Anwendungen konzentrieren können.
+\cite{mongodb}
+
+\subsection{Azure Translator}\label{c:2_ss:azure-translator}
+Azure Translator ist ein KI-gestützter Übersetzungsdienst, der von Microsoft bereitgestellt wird. Er ermöglicht die Übersetzung von Texten in über 100 Sprachen und Dialekte. Der Dienst bietet Funktionen wie Echtzeitübersetzungen, benutzerdefinierte Übersetzungsmodelle und die Integration in Anwendungen über REST-APIs. Zudem unterstützt er die Übersetzung von Dokumenten und bietet eine hohe Genauigkeit durch den Einsatz modernster KI-Technologien.
+\cite{azure-translator}
+
+
+\section{Deployment der Webanwendung}\label{c:2_s:deploy-webapp}
+
+Die Webanwendung wird in einer \ac{IaaS}-Umgebung bereitgestellt, die auf Microsoft Azure basiert. Diese Umgebung ermöglicht es, die Anwendung in einer skalierbaren und flexiblen Infrastruktur zu betreiben. Hierfür wird Terraform in Kombination mit Ansible verwendet. Die Bereitstellung erfolgt mithilfe eines Docker-Containers, der die Anwendung enthält. Dies erleichtert die Verwaltung und Skalierung der Anwendung in der Cloud.
+
+\subsection{Docker}\label{c:2_ss:docker}
+Docker ist eine Plattform zur Automatisierung der Bereitstellung von Anwendungen in Containern. Container sind leichtgewichtige, tragbare und isolierte Umgebungen, die es Entwicklern ermöglichen, Anwendungen und ihre Abhängigkeiten zusammenzufassen. Docker bietet eine einfache Möglichkeit, Anwendungen zu erstellen, bereitzustellen und zu skalieren, indem es eine konsistente Umgebung über verschiedene Systeme hinweg bereitstellt. Dies erleichtert die Zusammenarbeit zwischen Entwicklern und Betriebsteams und reduziert Probleme, die durch unterschiedliche Umgebungen verursacht werden können. Hierfür stellt Docker die sogenannte Docker-Engine zur Verfügung, welche zwischen dem Host-Betriebssystem und den Containern vermittelt. 
+\cite{docker}\\
+Docker Compose ist ein Werkzeug, das es ermöglicht, Multi-Container-Anwendungen zu definieren und auszuführen. Mit einer YAML-Datei können die Dienste einer Anwendung konfiguriert und mit einem einzigen Befehl gestartet werden. Es vereinfacht die Verwaltung von Anwendungen, die aus mehreren Containern bestehen, indem es eine deklarative Konfiguration und eine einfache Orchestrierung bietet.
+\cite{docker-compose}\\
+Mithilfe von Docker Multi-Stage Builds, können Container-Images in mehreren Schritten erstellt werden. Dies ermöglicht es, verschiedene Phasen des Build-Prozesses zu optimieren. Durch die Verwendung dieser Multi-Stage Builds können Entwickler sicherstellen, dass nur die benötigten Dateien und Abhängigkeiten im endgültigen Image enthalten sind. Abhängigkeiten, die nur zum Bauen der Bibliotheken oder ähnliches notwendig sind, können beispielsweise nur in der Build-Phase verwendet werden. Das erhöht letztendlich die Sicherheit, Effizienz und Größe des Container-Images.
+\cite{docker-ms}
+
+\subsection{Terraform}\label{c:2_ss:terraform}
+Terraform ist ein Open-Source \ac{IaC}-Tool, das es ermöglicht, Infrastruktur sicher und effizient bereitzustellen, zu ändern und zu verwalten. Es verwendet eine deklarative Konfigurationssprache, um die gewünschte Infrastruktur zu definieren, und erstellt einen Ausführungsplan, der beschreibt, wie Terraform die Infrastruktur erreicht. Terraform unterstützt eine Vielzahl von Cloud-Anbietern und anderen Diensten, was es zu einem vielseitigen Werkzeug für die Verwaltung von Infrastruktur in hybriden und Multi-Cloud-Umgebungen macht.
+\cite{terraform}
+
+\subsection{Ansible}\label{c:2_ss:ansible}
+Ansible ist ein Open-Source-Automatisierungswerkzeug, das für Konfigurationsmanagement, Anwendungsbereitstellung und Orchestrierung verwendet wird. Es ermöglicht die Automatisierung von IT-Aufgaben, indem es eine deklarative Sprache verwendet, um gewünschte Zustände von Systemen zu definieren. Diese werden in einer \ac{YAML} Datei namens \enquote{Playbook} gespeichert. Für Ansible muss keine zusätzliche Software auf den Zielsystemen installiert werden. Stattdessen verwendet es \ac{SSH}, um mit den Systemen zu kommunizieren. 
+\cite{ansible}

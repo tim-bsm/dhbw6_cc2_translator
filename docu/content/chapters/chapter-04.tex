@@ -1,0 +1,24 @@
+%!TEX root = ../../document/document.tex
+
+% For every chapter create a file in the /content/chapters folder with the name
+% chapter-XX.tex where XX is the chapter number  (e.g. 01, 02, 03, ..., 99).
+
+
+\chapter{Fazit und Ausblick}\label{c:4}
+
+\section{Fazit}\label{c:4_s:conclusion}
+In dieser Arbeit wurde eine Webanwendung als \ac{SaaS} zur Übersetzung von Texten in verschiedene Sprachen entwickelt. Diese Anwendung nutzt den Microsoft Azure \ac{AI} Translator und speichert die übersetzten Texte in einer MongoDB Datenbank, um den \ac{PaaS}-Aspekt abzudecken. Um die Anwendung skalierbar machen zu können, wurde Docker verwendet. Das Deployment der Anwendung erfolgt mithilfe von Terraform und Ansible auf einer Microsoft Azure \ac{VM} als \ac{IaaS}.
+
+
+\section{Ausblick}\label{c:4_s:outlook}
+Das Projekt bietet an sich eine gute Basis für eine Webanwendung, die mithilfe von Terraform und Ansible provisioniert werden kann. Um diese Anwendung dennoch weiter zu verbessern und produktionsreif zu machen, könnten folgende Punkte umgesetzt werden:
+
+\begin{itemize}
+    \item \textbf{Load Balancer:} Um die Anwendung skalierbar zu machen, könnte ein Load Balancer zwischen der \ac{VM} und dem Client eingesetzt werden. Dadurch könnte die Anwendung auf mehrere \ac{VM}s verteilt werden, um die Last besser zu verteilen.
+    
+    \item \textbf{Reverse-Proxy:} Um die Anwendung sicherer zu machen, könnte ein Reverse-Proxy eingesetzt werden. Dieser könnte die Anfragen an die \ac{VM} weiterleiten und dabei SSL-Zertifikate verwenden, um die Kommunikation zu verschlüsseln. 
+    
+    \item \textbf{Monitoring-Tools:} Um die Anwendung zu überwachen, könnten verschiedene Monitoring-Tools eingesetzt werden. Diese könnten die Leistung der Anwendung überwachen und bei Problemen Alarm schlagen.
+    
+    \item \textbf{\ac{CI}/\ac{CD}-Pipelines:} Um die Anwendung kontinuierlich zu integrieren und zu deployen, könnten verschiedene CI/CD-Tools eingesetzt werden. Diese könnten den Code automatisch testen und bei Änderungen automatisch deployen.
+\end{itemize}
