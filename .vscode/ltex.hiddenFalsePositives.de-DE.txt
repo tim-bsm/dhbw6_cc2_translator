@@ -8,3 +8,5 @@
 {"rule":"LEERZEICHEN_HINTER_DOPPELPUNKT","sentence":"^\\QUm das in der c:3_ss:docker-compose-Datei beschriebene .env-File verwenden zu können, muss dieses zuerst erstellt werden.\\E$"}
 {"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QUm das in der Docker Compose-Datei enthaltene .env-File verwenden zu können, muss dieses zuerst erstellt werden.\\E$"}
 {"rule":"GERMAN_SPELLER_RULE","sentence":"^\\QDaraufhin wird ein Ordner für die Anwendung erstellt und die Docker Compose-Datei für den Produktionsbetrieb, zusammen mit dem zuvor durch das Shell-Skript erzeugte .env-File, in diesen Ordner kopiert.\\E$"}
+{"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QBevor diese Module allerdings ausgeführt werden können, müssen zuerst die im .env-File gespeicherten Umgebungsvariablen geladen werden.\\E$"}
+{"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QUm diese Umgebungsvariablen direkt in den Run der main.tf-Datei einzubinden, wird ein Shell-Skript verwendet, welches die Variablen aus dem .env-File ausliest und diese im \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q-Format an die aufrufende main.tf-Datei zurückgibt.\\E$"}

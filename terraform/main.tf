@@ -1,6 +1,5 @@
 # https://support.hashicorp.com/hc/en-us/articles/4547786359571-Reading-and-using-environment-variables-in-Terraform-runs
-# Run the command to get the environment variables from .env file.
-# This is a data source, so it will run at plan time.
+# Run the script to get the environment variables from .env file.
 data "external" "env" {
   program = ["${path.module}/import_env.sh"]
 }
